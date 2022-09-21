@@ -25,9 +25,10 @@ const Board = () => {
       newArr = [];
       count = 1;
     }
-    if (index === data.length - 1 && newArr)
+    if (index === data.length - 1 && newArr.length )
       numberOfMelodiesInContainer.push(newArr);
   });
+  console.log(numberOfMelodiesInContainer)
 
   const [audio, setAudio] = useState(new Audio());
   const [playingMelodyId, setPlayingMelodyId] = useState(0);
@@ -46,7 +47,7 @@ const Board = () => {
 
   const arrowLeft = () => {
     if (active !== 0) active++;
-    else if (active === 0) active = -(numberOfMelodiesInContainer.length - 1);
+    else if (active === 0) active = - (numberOfMelodiesInContainer.length-1);
     if (slider.current !== null) {
       Array.from(slider.current["children"]).forEach((elem) => {
         elem.style = `transform:translateX(${active * 100}%)`;

@@ -17,7 +17,9 @@ const SoundBtn = ({ text }) => {
 
   const SoundStartClick = () => {
     if (!audio.duration) {
-      setAudio(new Audio(data[refBtn.current.id - 1]));
+      setAudio(
+        new Audio("http://localhost:3000/" + data[refBtn.current.id - 1])
+      );
       setPlayingMelodyId(refBtn.current.id);
       setPlayingController(!playingController);
     } else if (audio.duration) {

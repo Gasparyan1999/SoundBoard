@@ -14,6 +14,12 @@ import "./board.scss";
 
 export const context = createContext();
 
+const numberOfMelodiesInContainer = {
+  containerOne: [1, 2, 3],
+  containerTwo: [4, 5, 6],
+  containerThree: [7, 8, 9],
+};
+
 const Board = () => {
   const soundArr = [
     sound1,
@@ -28,41 +34,40 @@ const Board = () => {
   ];
 
   const [audio, setAudio] = useState(new Audio());
-  const [clickId, setClickId] = useState(0);
-  const [playing, setPlaying] = useState(false);
+  const [playingMelodyId, setPlayingMelodyId] = useState(0);
+  const [playingController, setPlayingController] = useState(false);
 
-  const play = (e) => {
+  const playMelody = (e) => {
     if (!audio.duration) {
       setAudio(new Audio(soundArr[e.target.id - 1]));
-      setClickId(e.target.id);
-      setPlaying(!playing);
+      setPlayingMelodyId(e.target.id);
+      setPlayingController(!playingController);
     } else if (audio.duration) {
-      if (+e.target.id !== +clickId) {
+      if (+e.target.id !== +playingMelodyId) {
         audio.pause();
         setAudio(new Audio(soundArr[e.target.id - 1]));
-        setClickId(+e.target.id);
-        if (!playing) setPlaying(!playing);
+        setPlayingMelodyId(+e.target.id);
+        if (!playingController) setPlayingController(!playingController);
       }
     }
   };
-  const pause = (e) => {
-    setPlaying(!playing);
+
+  const pauseMelody = (e) => {
+    setPlayingController(!playingController);
   };
 
   useEffect(() => {
-    playing ? audio.play() : audio.pause();
-  }, [playing, audio]);
-  const fast = (e) => {
+    playingController ? audio.play() : audio.pause();
+  }, [playingController, audio]);
+
+  const melodySpeed = (e) => {
     audio.playbackRate = +e.target.id;
   };
-  const soundArrays = {
-    one: [1, 2, 3],
-    two: [4, 5, 6],
-    three: [7, 8, 9],
-  };
+
   const slider = useRef(null);
   let active = 0;
-  const left = () => {
+
+  const arrowLeft = () => {
     if (active !== 0) active++;
     else if (active === 0) active = -2;
     if (slider.current !== null) {
@@ -71,7 +76,8 @@ const Board = () => {
       });
     }
   };
-  const right = () => {
+
+  const arrowRight = () => {
     if (active !== -2) active--;
     else if (active === -2) active = 0;
 
@@ -81,38 +87,39 @@ const Board = () => {
       });
     }
   };
+
   return (
     <div className="board">
-      <context.Provider value={[play]}>
+      <context.Provider value={[playMelody]}>
         <div className="buttonsScreen">
-          <div className="arrow" onClick={left}>
+          <div className="arrow" onClick={arrowLeft}>
             <h2>
               <ImArrowLeft />
             </h2>
           </div>
           <div className="audioScreen" ref={slider}>
-            <SoundContainer info={soundArrays.one} />
-            <SoundContainer info={soundArrays.two} />
-            <SoundContainer info={soundArrays.three} />
+            <SoundContainer info={numberOfMelodiesInContainer.containerOne} />
+            <SoundContainer info={numberOfMelodiesInContainer.containerTwo} />
+            <SoundContainer info={numberOfMelodiesInContainer.containerThree} />
           </div>
-          <div className="arrow" onClick={right}>
+          <div className="arrow" onClick={arrowRight}>
             <h2>
               <ImArrowRight />
             </h2>
           </div>
         </div>
         <div className="speedBtn">
-          <button id="0.5" onClick={fast}>
+          <button id="0.5" onClick={melodySpeed}>
             X0.5
           </button>
-          <button id="1" onClick={fast}>
+          <button id="1" onClick={melodySpeed}>
             X1
           </button>
-          <button id="2" onClick={fast}>
+          <button id="2" onClick={melodySpeed}>
             X2
           </button>
         </div>
-        <button className="pauseBtn" onClick={pause}>
+        <button className="pauseBtn" onClick={pauseMelody}>
           Pause/Continue
         </button>
       </context.Provider>

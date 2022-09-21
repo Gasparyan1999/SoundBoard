@@ -2,20 +2,6 @@ import React, { useContext, useRef } from "react";
 import { context } from "../Board/Board";
 import "./soundBtn.scss";
 
-// if (!audio.duration) {
-//   setAudio(new Audio(soundArr[newMelodyId - 1]));
-//   setPlayingMelodyId(newMelodyId);
-//   setPlayingController(!playingController);
-// } else if (audio.duration) {
-//   if (+newMelodyId !== +playingMelodyId) {
-//     audio.pause();
-//     setAudio(new Audio(soundArr[newMelodyId - 1]));
-//     setPlayingMelodyId(+newMelodyId);
-//     if (!playingController) setPlayingController(!playingController);
-//   }
-// }
-// value={[audio,setAudio,playingMelodyId, setPlayingMelodyId,playingController, setPlayingController,newMelodyId, setNewMelodyId]}>
-
 const SoundBtn = ({ text }) => {
   const [
       audio,
@@ -29,7 +15,7 @@ const SoundBtn = ({ text }) => {
 
   const refBtn = useRef(null);
 
-  const click = () => {
+  const SoundStartClick = () => {
 
     if (!audio.duration) {
       setAudio(new Audio(soundArr[refBtn.current.id- 1]));
@@ -45,7 +31,7 @@ const SoundBtn = ({ text }) => {
     }
   };
   return (
-    <div className="soundBtn" id={text} ref={refBtn} onClick={click} >
+    <div className="soundBtn" id={text} ref={refBtn} onClick={SoundStartClick} >
       <h1>Sound{text}</h1>
     </div>
   );

@@ -33,7 +33,6 @@ const Board = () => {
 
   const play = (e) => {
     if (!audio.duration) {
-      console.log("bla");
       setAudio(new Audio(soundArr[e.target.id - 1]));
       setClickId(e.target.id);
       setPlaying(!playing);
@@ -47,7 +46,6 @@ const Board = () => {
     }
   };
   const pause = (e) => {
-    audio.pause();
     setPlaying(!playing);
   };
 
@@ -56,12 +54,6 @@ const Board = () => {
   }, [playing, audio]);
   const fast = (e) => {
     audio.playbackRate = +e.target.id;
-  };
-
-  const stop = (e) => {
-    console.log("bla");
-    setAudio(new Audio());
-    audio.play();
   };
   const soundArrays = {
     one: [1, 2, 3],
@@ -74,7 +66,7 @@ const Board = () => {
     if (active !== 0) active++;
     else if (active === 0) active = -2;
     if (slider.current !== null) {
-      Array.from(slider.current["children"]).map((elem) => {
+      Array.from(slider.current["children"]).forEach((elem) => {
         elem.style = `transform:translateX(${active * 100}%)`;
       });
     }
@@ -84,7 +76,7 @@ const Board = () => {
     else if (active === -2) active = 0;
 
     if (slider.current !== null) {
-      Array.from(slider.current["children"]).map((elem) => {
+      Array.from(slider.current["children"]).forEach((elem) => {
         elem.style = `transform:translateX(${active * 100}%)`;
       });
     }

@@ -30,27 +30,6 @@
             }
         }
     }
-    .speedBtn {
-        display: flex;
-        width: 100%;
-        height: 40%;
-        border: solid 1px rgb(246, 255, 0);
-        justify-content: space-around;
-        align-items: center;
-        button {
-            width: 120px;
-            height: 60px;
-            border: solid 1px black;
-            background-color: aqua;
-            font-size: 30px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-        button:hover {
-            transform: scale(1.1);
-            background-color: yellow;
-        }
-    }
     .pauseBtn {
         width: 100%;
         height: 10%;

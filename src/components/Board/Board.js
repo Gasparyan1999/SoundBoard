@@ -1,6 +1,7 @@
 import React, { createContext, useRef, useState, useEffect } from "react";
 import { ImArrowRight, ImArrowLeft } from "react-icons/im";
 import SoundContainer from "../SoundContainer/SoundContainer";
+import SpeedBtn from "../SpeedBtn/SpeedBtn";
 import sound1 from "../music/1.mp3";
 import sound2 from "../music/2.mp3";
 import sound3 from "../music/3.mp3";
@@ -20,6 +21,8 @@ const numberOfMelodiesInContainer = {
   containerThree: [7, 8, 9],
 };
 
+const speedMelodyArray = [0.5, 1, 2];
+
 const Board = () => {
   const soundArr = [
     sound1,
@@ -37,32 +40,13 @@ const Board = () => {
   const [playingMelodyId, setPlayingMelodyId] = useState(0);
   const [playingController, setPlayingController] = useState(false);
 
-  const playMelody = (e) => {
-    if (!audio.duration) {
-      setAudio(new Audio(soundArr[e.target.id - 1]));
-      setPlayingMelodyId(e.target.id);
-      setPlayingController(!playingController);
-    } else if (audio.duration) {
-      if (+e.target.id !== +playingMelodyId) {
-        audio.pause();
-        setAudio(new Audio(soundArr[e.target.id - 1]));
-        setPlayingMelodyId(+e.target.id);
-        if (!playingController) setPlayingController(!playingController);
-      }
-    }
-  };
-
-  const pauseMelody = (e) => {
+  const pauseMelody = () => {
     setPlayingController(!playingController);
   };
 
   useEffect(() => {
     playingController ? audio.play() : audio.pause();
   }, [playingController, audio]);
-
-  const melodySpeed = (e) => {
-    audio.playbackRate = +e.target.id;
-  };
 
   const slider = useRef(null);
   let active = 0;
@@ -90,7 +74,17 @@ const Board = () => {
 
   return (
     <div className="board">
-      <context.Provider value={[playMelody]}>
+      <context.Provider
+        value={[
+          audio,
+          setAudio,
+          playingMelodyId,
+          setPlayingMelodyId,
+          playingController,
+          setPlayingController,
+          soundArr,
+        ]}
+      >
         <div className="buttonsScreen">
           <div className="arrow" onClick={arrowLeft}>
             <h2>
@@ -109,15 +103,9 @@ const Board = () => {
           </div>
         </div>
         <div className="speedBtn">
-          <button id="0.5" onClick={melodySpeed}>
-            X0.5
-          </button>
-          <button id="1" onClick={melodySpeed}>
-            X1
-          </button>
-          <button id="2" onClick={melodySpeed}>
-            X2
-          </button>
+          {speedMelodyArray.map((elem) => {
+            return <SpeedBtn num={elem} audio={audio} />;
+          })}
         </div>
         <button className="pauseBtn" onClick={pauseMelody}>
           Pause/Continue

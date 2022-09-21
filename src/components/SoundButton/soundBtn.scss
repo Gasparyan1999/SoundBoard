@@ -1,0 +1,18 @@
+.soundBtn {
+    display: flex;
+    width: 200px;
+    height: 90px;
+    justify-content: center;
+    align-items: center;
+    border: solid 1px yellow;
+    border-radius: 15px;
+    background-color: aqua;
+    cursor: pointer;
+    h1 {
+        color: black;
+    }
+}
+.soundBtn:hover {
+    background-color: yellow;
+    border: solid 5px black;
+}
